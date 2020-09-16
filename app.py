@@ -65,10 +65,9 @@ class Spotify:
             response_json = response.json()
 
             if response_json["tracks"]["total"] != 0:
-                # print("| erkannt |       -" + track_name)
+
                 track_array.append(response_json["tracks"]["items"][0]["uri"])
-            # else:
-            # print("|nicht erkannt|   -" + track_name)
+
 
         return track_array
 
@@ -148,21 +147,23 @@ def get_tracks_yt(url):
         t = t.split(" ft", 1)[0]
         t = t.split("feat", 1)[0]
 
+        #By filtering all these Substrings the Chance of finding THe Song in Spotify increases
+
         return_array.append(t)
 
     return return_array
 
 
-def update_lofi_playlist():
+def update_playlist():
     sp = Spotify()
-    yt_tracks = get_tracks_yt(secret.lofi_playlist_url)
+    yt_tracks = get_tracks_yt(secret.youtube_playlist_url)
     #print(yt_tracks)
     yt_track_ids = sp.get_ids_by_name(yt_tracks)
     #print(yt_track_ids)
-    new_track_ids = sp.get_new_track_ids(secret.lofi_playlist_id, yt_track_ids)
+    new_track_ids = sp.get_new_track_ids(secret.spotify_playlist_id, yt_track_ids)
     #print(new_track_ids)
-    sp.add_to_playlist(secret.lofi_playlist_id, new_track_ids)
+    sp.add_to_playlist(secret.spotify_playlist_id, new_track_ids)
 
 
 
-update_lofi_playlist()
+update_playlist()
