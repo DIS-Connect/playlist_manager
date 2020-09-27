@@ -117,11 +117,12 @@ def get_tracks_yt(url):
     r = requests.get(url)
 
     code = r.text
-
-    titles = re.findall("simpleText\":\"[^\"]*\"},\"index", code)
-
+    print(code)
+    titles = re.findall("title\":{\"runs\":\[{\"text\":\"(.*?)\"}],", code)
+    #
+    print(titles)
     for i in titles:
-        string_array.append(i[13: -9])
+        string_array.append(i)
 
     return_array = []
 
@@ -155,13 +156,15 @@ def get_tracks_yt(url):
 
 
 def update_playlist():
-    sp = Spotify()
     yt_tracks = get_tracks_yt(secret.youtube_playlist_url)
-    #print(yt_tracks)
+    print("yt tracks")
+    print(yt_tracks)
+
+    sp = Spotify()
     yt_track_ids = sp.get_ids_by_name(yt_tracks)
-    #print(yt_track_ids)
+    print(yt_track_ids)
     new_track_ids = sp.get_new_track_ids(secret.spotify_playlist_id, yt_track_ids)
-    #print(new_track_ids)
+    print(new_track_ids)
     sp.add_to_playlist(secret.spotify_playlist_id, new_track_ids)
 
 
