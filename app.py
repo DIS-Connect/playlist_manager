@@ -58,7 +58,7 @@ class Spotify:
             header_field = {"Authorization": "Bearer {token}".format(token=self.token)}
 
             for word in range(len(track_name.split())):
-                temp_track_name = temp_track_name.rsplit(' ', 1)[0]
+
                 print("searching for: "+ temp_track_name)
                 response = requests.get(
                     url=url,
@@ -69,7 +69,7 @@ class Spotify:
                 )
 
                 response_json = response.json()
-
+                temp_track_name = temp_track_name.rsplit(' ', 1)[0]
                 if response_json["tracks"]["total"] != 0:
 
                     track_array.append(response_json["tracks"]["items"][0]["uri"])
